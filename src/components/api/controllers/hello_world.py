@@ -14,4 +14,4 @@ async def hello(name: str) -> JSONResponse:
     :return: JSONResponse with message
     """
 
-    return JSONResponse(status_code=HTTPStatus.OK, content={'message': f"Hello {name}"})
+    return JSONResponse(status_code=HTTPStatus.OK, content={'message': f'Hello {name}'})
