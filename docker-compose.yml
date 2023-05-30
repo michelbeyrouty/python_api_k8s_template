@@ -1,0 +1,18 @@
+version: "3.4"
+
+services:
+
+  hello-world-api:
+    container_name: hello-world-api
+    build:
+      context: .
+      dockerfile: src/components/Dockerfile
+      target: develop
+    ports:
+      - 8202:8080
+    volumes:
+      - ./src:/src
+    env_file:
+      - local_env/env.cfg
+    command: uvicorn components.api.api:app --host 0.0.0.0 --port 8080 --reload
+
