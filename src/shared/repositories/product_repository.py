@@ -38,11 +38,12 @@ class ProductRepository(BaseRepository):
             result = self.get_product_by_id(product.product_id)
             if isinstance(result, Product):
                 raise InvalidProduct(f'Product id # {product.product_id} already exists.')
-
-            self.insert(
-                f"INSERT INTO products VALUES ({product.product_id}, '{product.title}', '{product.description}')")
-        except (InvalidProduct, InvalidProduct) as e:
-            raise InvalidProduct(f'Unable to create new product. {str(e)}')
+        except InvalidProduct:
+            try:
+                self.insert(
+                    f"INSERT INTO products VALUES ({product.product_id}, '{product.title}', '{product.description}')")
+            except IntegrityError as e:
+                raise InvalidProduct(f'Unable to save new product. {str(e)}')
 
     def delete_product(self, product: Product) -> None:
         """
